@@ -15,11 +15,6 @@ const con = mysql.createPool({
   database: "heroku_06908cb0216412f",
 });
 
-// Connect DB
-con.connect((err) => {
-  if (err) throw err;
-  console.log("Connected to DB!");
-});
 
 app.use(bodyParser.json());
 
