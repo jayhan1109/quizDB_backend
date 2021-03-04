@@ -20,6 +20,11 @@ app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Content-Type", "application/json");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
   next();
 });
 
@@ -116,9 +121,9 @@ app.put("/questions", (req, res) => {
   res.json("Edit Completed");
 });
 
-app.get("*",(req,res)=>{
-  res.json("not found")
-})
+app.get("*", (req, res) => {
+  res.json("not found");
+});
 
 app.listen(PORT, () => {
   console.log(`Server is on ${PORT}`);
