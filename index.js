@@ -1,6 +1,7 @@
 "use strict";
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const app = express();
 const mysql = require("mysql");
 
@@ -11,6 +12,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(cors());
 app.use(bodyParser.json());
 
 // port connection
@@ -30,9 +32,9 @@ con.connect((err) => {
   console.log("Connected to DB!");
 });
 
-app.get('/',(req,res)=>{
-  res.json("hello")
-})
+app.get("/", (req, res) => {
+  res.json("hello");
+});
 
 app.get("/questions", (req, res) => {
   let sql = "Select q.id, q.title, q.answer, o.text from quiz q join options o on q.id = o.quizid";
@@ -100,11 +102,11 @@ app.post("/questions", (req, res) => {
 app.put("/questions", (req, res) => {
   console.log(req.body);
 
-  let sql= `UPDATE quiz SET title='${req.body.title}', answer=${req.body.answer} where id = ${req.body.id}`;
+  let sql = `UPDATE quiz SET title='${req.body.title}', answer=${req.body.answer} where id = ${req.body.id}`;
   con.query(sql, (err, result) => {
     if (err) throw err;
 
-    sql= `delete from options where quizid = ${req.body.id}`;
+    sql = `delete from options where quizid = ${req.body.id}`;
     con.query(sql, (err, result) => {
       if (err) throw err;
 
@@ -114,12 +116,12 @@ app.put("/questions", (req, res) => {
         },'${option}')`;
         con.query(sql, (err, result) => {
           if (err) throw err;
-        })
+        });
       }
-    })
-  })
+    });
+  });
 
-  res.json("Edit Completed")
+  res.json("Edit Completed");
 });
 
 app.listen(PORT, () => {
