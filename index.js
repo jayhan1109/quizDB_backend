@@ -18,10 +18,10 @@ const PORT = process.env.PORT || 9999;
 
 // // Create DB connection
 const con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "1024wjdgh!A",
-  database: "quizDB",
+  host: "us-cdbr-east-03.cleardb.com",
+  user: "bf7891d6a24399",
+  password: "273eeb8c",
+  database: "heroku_06908cb0216412f",
 });
 
 // Connect DB
@@ -29,6 +29,10 @@ con.connect((err) => {
   if (err) throw err;
   console.log("Connected to DB!");
 });
+
+app.get('/',(req,res)=>{
+  res.json("hello")
+})
 
 app.get("/questions", (req, res) => {
   let sql = "Select q.id, q.title, q.answer, o.text from quiz q join options o on q.id = o.quizid";
