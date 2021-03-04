@@ -1,24 +1,14 @@
 "use strict";
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
 const app = express();
 const mysql = require("mysql");
-
-
-app.use(cors());
-app.use(bodyParser.json());
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  next();
-});
 
 // port connection
 const PORT = process.env.PORT || 9999;
 
 // // Create DB connection
-const con = mysql.createConnection({
+const con = mysql.createPool({
   host: "us-cdbr-east-03.cleardb.com",
   user: "bf7891d6a24399",
   password: "273eeb8c",
@@ -30,6 +20,14 @@ con.connect((err) => {
   if (err) throw err;
   console.log("Connected to DB!");
 });
+
+app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 
 app.get("/", (req, res) => {
   res.json("hello");
@@ -122,6 +120,10 @@ app.put("/questions", (req, res) => {
 
   res.json("Edit Completed");
 });
+
+app.get("*",(req,res)=>{
+  res.json("not found")
+})
 
 app.listen(PORT, () => {
   console.log(`Server is on ${PORT}`);
